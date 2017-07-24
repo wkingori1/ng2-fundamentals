@@ -1,0 +1,8 @@
+<div (click)="toggleContent()" class="well pointable">
+  <h4>
+      <!-- content inside the collapsible-well component with an attribute of well-title is placed here -->
+      <ng-content select="[well-title]"></ng-content>
+  </h4>
+  <!-- content inside the collapsible-well component with an attribute of well-body is placed here -->
+  <ng-content select="[well-body]" *ngIf="visible"></ng-content>
+</div>

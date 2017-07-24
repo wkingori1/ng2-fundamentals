@@ -8,23 +8,31 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
+var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
+var event_service_1 = require("./shared/event.service");
 var CreateEventComponent = (function () {
-    function CreateEventComponent(router) {
+    function CreateEventComponent(router, eventService) {
         this.router = router;
+        this.eventService = eventService;
         this.isDirty = true;
     }
+    CreateEventComponent.prototype.saveEvent = function (formValues) {
+        this.eventService.saveEvent(formValues);
+        this.isDirty = false;
+        this.router.navigate(['/events']);
+    };
     CreateEventComponent.prototype.cancel = function () {
         this.router.navigate(['/events']);
     };
-    CreateEventComponent = __decorate([
-        core_1.Component({
-            template: "\n    <h1>New Event</h1>\n    <hr>\n    <div class=\"col-md-6\">\n      <h3>[Create Event Form will go here]</h3>\n      <br/>\n      <br/>\n      <button type=\"submit\" class=\"btn btn-primary\">Save</button>\n      <button type=\"button\" class=\"btn btn-default\" (click)=\"cancel()\">Cancel</button>\n    </div>\n  "
-        }), 
-        __metadata('design:paramtypes', [router_1.Router])
-    ], CreateEventComponent);
     return CreateEventComponent;
 }());
+CreateEventComponent = __decorate([
+    core_1.Component({
+        templateUrl: 'app/events/create-event.component.html',
+        styles: ["\n    em { float: right; color: #E05C65; padding-left: 10px; }\n    .error input { background-color:#E3C3C5; }\n    .error ::-webkit-input-placeholder { color: #999; }\n    .error ::-moz-placeholder { color: #999; }\n    .error :-moz-placeholder { color: #999; }\n    .error :ms-input-placeholder { color: #999; }\n  "]
+    }),
+    __metadata("design:paramtypes", [router_1.Router, event_service_1.EventService])
+], CreateEventComponent);
 exports.CreateEventComponent = CreateEventComponent;
 //# sourceMappingURL=create-event.component.js.map

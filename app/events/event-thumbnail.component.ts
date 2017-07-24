@@ -3,9 +3,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 @Component({
   selector: 'event-thumbnail',
   template: `
+    <!-- the event.id value is passed to the '/events' path as a query params when using [routerLink]-->
     <div [routerLink]="['/events', event.id]" class="well hoverwell thumbnail">
-      <h2>{{event?.name}}</h2>
-      <div>Date: {{event?.date}}</div>
+      <h2>{{event?.name | uppercase}}</h2>
+      <div>Date: {{event?.date | date:'shortDate'}}</div>
       <div>Time: {{event?.time}}</div>
       <div [ngClass]="getStartTime()" [ngSwitch]="event?.time">
         <span *ngSwitchCase="'8:00 am'">(Early Start)</span>
@@ -13,7 +14,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
         <span *ngSwitchDefault>(Normal Start)</span>
       </div>
 
-      <div>Price: \${{event?.price}}</div>
+      <div>Price: {{event?.price | currency:'USD':true}}</div>
 
       <!-- you can use [hidden]="!event?.location" in place of the ngIf below-->
       <div *ngIf="event?.location">

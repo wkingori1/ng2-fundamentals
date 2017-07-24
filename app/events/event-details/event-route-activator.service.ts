@@ -8,11 +8,14 @@ export class EventRouteActivator implements CanActivate {
 
   }
 
+  //current route is passed into the canActivate method as the first parameter
   canActivate(route: ActivatedRouteSnapshot) {
+    //double bang casts the result of the getEvent call to a boolean
     const eventExists = !!this.eventService.getEvent(+route.params['id'])
 
     if (!eventExists)
       this.router.navigate(['/404'])
+    //returns boolean to see if route can exist  
     return eventExists
   }
 

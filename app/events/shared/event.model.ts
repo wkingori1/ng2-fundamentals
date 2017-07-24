@@ -5,11 +5,13 @@ export interface IEvent {
   time: string
   price: number
   imageUrl: string
+  //`?` denotes that this property can be null
   location?: {
     address: string
     city: string
     country: string
   }
+  //`?` denotes that this property can be null
   onlineUrl?: string
   sessions: ISession[]
 }

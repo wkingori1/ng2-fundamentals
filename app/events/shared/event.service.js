@@ -5,28 +5,55 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var core_1 = require('@angular/core');
-var RX_1 = require('rxjs/RX');
+var core_1 = require("@angular/core");
+var RX_1 = require("rxjs/RX");
 var EventService = (function () {
     function EventService() {
     }
+    //specifies return type is an Observable of type IEvent[]
     EventService.prototype.getEvents = function () {
+        //example of using an observable to asynchronously get our data
         var subject = new RX_1.Subject();
-        setTimeout(function () { subject.next(EVENTS); subject.complete(); });
+        setTimeout(function () { subject.next(EVENTS); subject.complete(); }, 100);
         return subject;
     };
     EventService.prototype.getEvent = function (id) {
         return EVENTS.find(function (event) { return event.id === id; });
     };
-    EventService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
-    ], EventService);
+    EventService.prototype.saveEvent = function (event) {
+        event.id = 999;
+        event.sessions = [];
+        EVENTS.push(event);
+    };
+    EventService.prototype.updateEvent = function (event) {
+        //find event in arrays of events that matches the event id we just updated
+        var index = EVENTS.findIndex(function (x) { return x.id == event.id; });
+        EVENTS[index] = event;
+    };
+    EventService.prototype.searchSessions = function (searchTerm) {
+        var term = searchTerm.toLocaleLowerCase();
+        var results = [];
+        EVENTS.forEach(function (event) {
+            var matchingSessions = event.sessions.filter(function (session) {
+                return session.name.toLocaleLowerCase().indexOf(term) > -1;
+            });
+            matchingSessions = matchingSessions.map(function (session) {
+                session.eventId = event.id;
+                return session;
+            });
+            results = results.concat(matchingSessions);
+        });
+        var emitter = new core_1.EventEmitter(true);
+        setTimeout(function () {
+            emitter.emit(results);
+        }, 100);
+        return emitter;
+    };
     return EventService;
 }());
+EventService = __decorate([
+    core_1.Injectable()
+], EventService);
 exports.EventService = EventService;
 var EVENTS = [
     {

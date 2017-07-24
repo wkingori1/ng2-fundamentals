@@ -8,30 +8,25 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var event_service_1 = require('./shared/event.service');
-var toastr_service_1 = require('../common/toastr.service');
-var router_1 = require('@angular/router');
+var core_1 = require("@angular/core");
+var event_service_1 = require("./shared/event.service");
+var router_1 = require("@angular/router");
 var EventsListComponent = (function () {
-    function EventsListComponent(eventService, toastr, route) {
+    function EventsListComponent(eventService, route) {
         this.eventService = eventService;
-        this.toastr = toastr;
         this.route = route;
     }
     EventsListComponent.prototype.ngOnInit = function () {
+        //the `events` from the data snapshot is coming from our route data resolver
         this.events = this.route.snapshot.data['events'];
     };
-    EventsListComponent.prototype.handleThumbnailClick = function (eventName) {
-        this.toastr.success(eventName);
-    };
-    EventsListComponent = __decorate([
-        core_1.Component({
-            selector: 'events-list',
-            templateUrl: 'app/events/events-list.component.html'
-        }), 
-        __metadata('design:paramtypes', [event_service_1.EventService, toastr_service_1.ToastrService, router_1.ActivatedRoute])
-    ], EventsListComponent);
     return EventsListComponent;
 }());
+EventsListComponent = __decorate([
+    core_1.Component({
+        templateUrl: 'app/events/events-list.component.html'
+    }),
+    __metadata("design:paramtypes", [event_service_1.EventService, router_1.ActivatedRoute])
+], EventsListComponent);
 exports.EventsListComponent = EventsListComponent;
 //# sourceMappingURL=events-list.component.js.map
